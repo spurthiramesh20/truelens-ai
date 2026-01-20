@@ -1,19 +1,10 @@
-import pandas as pd
-import re
-
 def analyze_text_quality(df):
-    texts = df["feedback_text"]
+    texts = df['feedback_text'].astype(str)  # force everything to string
 
     lengths = texts.apply(len)
-    word_counts = texts.apply(lambda x: len(x.split()))
-    unique_ratio = texts.apply(lambda x: len(set(x.split())) / max(len(x.split()), 1))
-    repetition_score = texts.apply(lambda x: len(re.findall(r'(.)\1{3,}', x)))
+    unique_words = texts.apply(lambda x: len(set(x.split())))
 
-    features = pd.DataFrame({
-        "length": lengths,
-        "word_count": word_counts,
-        "unique_ratio": unique_ratio,
-        "repetition_score": repetition_score
-    })
+    df['text_length'] = lengths
+    df['unique_word_count'] = unique_words
 
-    return features
+    return df
