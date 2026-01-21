@@ -8,7 +8,7 @@ from src.trust_score import compute_trust_score
 
 st.set_page_config(page_title="TrueLens AI", layout="wide")
 
-st.title("🔍 TrueLens – Feedback Authenticity Analyzer")
+st.title(" TrueLens – Feedback Authenticity Analyzer")
 st.write("Upload your survey / review data and get Trust Scores for each response.")
 
 uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
