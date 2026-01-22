@@ -1,10 +1,9 @@
-def analyze_text_quality(df):
-    texts = df['feedback_text'].astype(str)  # force everything to string
+def analyze_text_quality(df, text_col="feedback_text"):
+    if text_col not in df.columns:
+        raise ValueError(f"Column '{text_col}' not found. Available columns: {list(df.columns)}")
 
+    texts = df[text_col].fillna("").astype(str)
     lengths = texts.apply(len)
-    unique_words = texts.apply(lambda x: len(set(x.split())))
 
-    df['text_length'] = lengths
-    df['unique_word_count'] = unique_words
-
+    df["length_score"] = lengths / lengths.max()
     return df
