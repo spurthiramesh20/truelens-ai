@@ -1,7 +1,7 @@
-from text_quality import analyze_text_quality
-from ai_detector import detect_ai_probability
-from anomaly import detect_anomaly
-from trust_score import compute_trust_score
+from .text_quality import analyze_text_quality
+from .ai_detector import detect_ai_probability
+from .anomaly import detect_anomaly
+from .trust_score import compute_trust_score
 
 def emotion_consistency(text: str) -> float:
     positive_words = ["good", "great", "amazing", "love", "excellent"]

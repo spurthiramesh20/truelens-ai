@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from schemas import AnalyzeRequest, AnalyzeResponse, AnalyzeResult
-from pipeline import run_pipeline
+from .schemas import AnalyzeRequest, AnalyzeResponse, AnalyzeResult
+from .pipeline import run_pipeline
 
 app = FastAPI(title="TrueLens AI")
 
