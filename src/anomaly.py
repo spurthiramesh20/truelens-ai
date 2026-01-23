@@ -1,14 +1,7 @@
-from sklearn.ensemble import IsolationForest
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-def detect_anomalies(df):
-    texts = df["text"].astype(str)
-
-    vectorizer = TfidfVectorizer(max_features=300)
-    features = vectorizer.fit_transform(texts)
-
-    model = IsolationForest(contamination=0.1, random_state=42)
-    anomaly_scores = model.fit_predict(features)
-
-    df["anomaly"] = anomaly_scores
-    return df, anomaly_scores
+def detect_anomaly(text: str) -> float:
+    length = len(text.split())
+    if length < 5:
+        return 90.0
+    if length > 300:
+        return 70.0
+    return 20.0

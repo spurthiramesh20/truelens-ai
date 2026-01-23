@@ -1,9 +1,11 @@
-def analyze_text_quality(df, text_col="feedback_text"):
-    if text_col not in df.columns:
-        raise ValueError(f"Column '{text_col}' not found. Available columns: {list(df.columns)}")
+import re
 
-    texts = df[text_col].fillna("").astype(str)
-    lengths = texts.apply(len)
+def analyze_text_quality(text: str) -> float:
+    words = text.split()
+    length_score = min(len(words) / 50, 1.0)
 
-    df["length_score"] = lengths / lengths.max()
-    return df
+    unique_ratio = len(set(words)) / max(len(words), 1)
+
+    grammar_penalty = 1.0 if re.search(r"[.!?]$", text) else 0.7
+
+    return round((0.4 * length_score + 0.4 * unique_ratio + 0.2 * grammar_penalty) * 100, 2)

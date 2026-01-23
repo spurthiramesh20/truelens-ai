@@ -1,23 +1,17 @@
-from fastapi import FastAPI, UploadFile, File
-import pandas as pd
-from .text_quality import analyze_text_quality
-from .anomaly import detect_anomalies
-from .trust_score import compute_trust_score
+from fastapi import FastAPI
+from schemas import AnalyzeRequest, AnalyzeResponse, AnalyzeResult
+from pipeline import run_pipeline
 
+app = FastAPI(title="TrueLens AI")
 
-app = FastAPI()
+@app.get("/")
+def health():
+    return {"status": "TrueLens is running"}
 
-@app.post("/analyze")
-def analyze(file: UploadFile = File(...)):
-    df = pd.read_csv(file.file)
-
-    # IMPORTANT: use the real column name from your CSV
-    df = analyze_text_quality(df, text_col="feedback_text")
-
-    df = detect_anomalies(df)
-    df = compute_trust_score(df)
-
-    return df.to_dict(orient="records")
-
-
-
+@app.post("/analyze", response_model=AnalyzeResponse)
+def analyze(request: AnalyzeRequest):
+    results = []
+    for text in request.texts:
+        output = run_pipeline(text)
+        results.append(AnalyzeResult(**output))
+    return {"results": results}
