@@ -1,7 +1,7 @@
-from .text_quality import analyze_text_quality
-from .ai_detector import detect_ai_probability
-from .anomaly import detect_anomaly
-from .trust_score import compute_trust_score
+from src.text_quality import analyze_text_quality
+from src.ai_detector import detect_ai_probability
+from src.anomaly import detect_anomaly
+from src.trust_score import compute_trust_score
 
 def emotion_consistency(text: str) -> float:
     positive_words = ["good", "great", "amazing", "love", "excellent"]
@@ -20,17 +20,10 @@ def run_pipeline(text: str):
 
     trust = compute_trust_score(quality, ai_prob, anomaly, emotion)
 
-    explanation = f"""
-    Quality: {quality}/100
-    AI Probability: {ai_prob}%
-    Anomaly Risk: {anomaly}%
-    Emotion Consistency: {emotion}%
-    """
-
     return {
         "trust_score": trust,
         "ai_probability": ai_prob,
         "emotion_consistency": emotion,
         "anomaly_score": anomaly,
-        "explanation": explanation.strip()
+        "explanation": f"Quality={quality}, AI={ai_prob}, Anomaly={anomaly}, Emotion={emotion}"
     }
