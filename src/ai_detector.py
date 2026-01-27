@@ -1,14 +1,7 @@
-import re
-
-AI_PHRASES = [
-    "as an ai language model",
-    "overall, it can be said",
-    "in conclusion",
-    "moreover",
-    "furthermore"
-]
-
-def detect_ai_probability(text: str) -> float:
-    text_lower = text.lower()
-    hits = sum(1 for p in AI_PHRASES if p in text_lower)
-    return min(hits * 20 + len(text.split()) * 0.2, 100)
+def detect_ai(text: str) -> float:
+    ai_markers = ["in conclusion", "moreover", "overall", "additionally", "furthermore"]
+    score = 0
+    for w in ai_markers:
+        if w in text.lower():
+            score += 10
+    return min(score, 100)

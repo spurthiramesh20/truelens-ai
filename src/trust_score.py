@@ -1,8 +1,11 @@
-def compute_trust_score(quality, ai_prob, anomaly, emotion):
-    score = (
-        0.35 * quality +
-        0.25 * (100 - ai_prob) +
-        0.2 * (100 - anomaly) +
-        0.2 * emotion
-    )
-    return round(score, 2)
+def compute_trust(text: str) -> float:
+    length_score = min(len(text) / 300 * 100, 100)
+    exaggeration_penalty = 0
+
+    exaggerations = ["best ever", "perfect", "no flaws", "always", "never"]
+    for word in exaggerations:
+        if word in text.lower():
+            exaggeration_penalty += 15
+
+    trust = max(0, length_score - exaggeration_penalty)
+    return round(trust, 2)

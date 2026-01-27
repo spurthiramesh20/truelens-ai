@@ -1,17 +1,9 @@
 from fastapi import FastAPI
-from .schemas import AnalyzeRequest, AnalyzeResponse, AnalyzeResult
-from .pipeline import run_pipeline
+from .schemas import JudgeRequest, JudgeResponse
+from .pipeline import judge_text
 
-app = FastAPI(title="TrueLens AI")
+app = FastAPI(title="TrueLens – Credibility Judge")
 
-@app.get("/")
-def health():
-    return {"status": "TrueLens is running"}
-
-@app.post("/analyze", response_model=AnalyzeResponse)
-def analyze(request: AnalyzeRequest):
-    results = []
-    for text in request.texts:
-        output = run_pipeline(text)
-        results.append(AnalyzeResult(**output))
-    return {"results": results}
+@app.post("/judge", response_model=JudgeResponse)
+def judge(req: JudgeRequest):
+    return judge_text(req.text)

@@ -1,7 +1,5 @@
-def detect_anomaly(text: str) -> float:
-    length = len(text.split())
-    if length < 5:
-        return 90.0
-    if length > 300:
-        return 70.0
-    return 20.0
+def anomaly_score(text: str) -> float:
+    if len(text.split()) < 5:
+        return 60
+    return 20
+

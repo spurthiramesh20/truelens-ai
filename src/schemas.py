@@ -1,15 +1,16 @@
 from pydantic import BaseModel
 from typing import List
 
-class AnalyzeRequest(BaseModel):
-    texts: List[str]
+class JudgeRequest(BaseModel):
+    text: str
 
-class AnalyzeResult(BaseModel):
-    trust_score: float
-    ai_probability: float
-    emotion_consistency: float
-    anomaly_score: float
+class Highlight(BaseModel):
+    phrase: str
+    reason: str
+
+class JudgeResponse(BaseModel):
+    credibility_label: str
+    confidence: float
+    risk_flags: List[str]
     explanation: str
-
-class AnalyzeResponse(BaseModel):
-    results: List[AnalyzeResult]
+    highlights: List[Highlight]
